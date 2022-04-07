@@ -1,2 +1,11 @@
-# afdian_podcast_down
-下载爱发电平台里的播客节目，并写入元数据。
+# 爱发电播客下载
+**前排提醒：本工具仅能下载已赞助的节目，白嫖就别想了**
+## 使用
+首先需要从cookies里获取`auth_token`，方法有很多，就不赘述了。
+
+```shell
+$ git clone git@github.com:senventise/afdian_podcast_down.git
+$ cd afdian_podcast_down
+$ auth_token="YOUR_TOKEN" python main.py
+```
+有可能需要`ffmpeg`
