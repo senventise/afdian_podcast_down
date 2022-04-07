@@ -83,6 +83,7 @@ def get_albums(album_id: str, sleep_time: int = 30):
                     audio.initTag()
                 audio.tag.artist = author
                 audio.tag.title = title
+                audio.tag.album = title
                 audio.tag.comments.set(description)
                 audio.tag.images.set(3, cover, "image/jpeg")
                 audio.tag.save()
