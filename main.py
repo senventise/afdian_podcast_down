@@ -1,3 +1,4 @@
+import argparse
 import os
 from random import randint
 from time import sleep
@@ -8,11 +9,6 @@ import requests
 SLEEP_TIME = 30
 
 cookies = {}
-if "auth_token" in os.environ:
-    cookies["auth_token"] = os.environ["auth_token"]
-else:
-    print("auth_token未配置")
-    exit(1)
 
 headers = {
     'authority': 'afdian.net',
@@ -120,4 +116,17 @@ def get_latest(album_id: str):
 
 
 if __name__ == '__main__':
-    get_latest("c6ae1166a9f511eab22c52540025c377")
+    parser = argparse.ArgumentParser(description="爱发电播客下载")
+    parser.add_argument("album_id", metavar="id", type=str, help="URL里的id")
+    parser.add_argument("--all", action="store_true", help="下载全部")
+    parser.add_argument("--latest", action="store_true", help="下载最新一期")
+    args = parser.parse_args()
+    if "auth_token" in os.environ:
+        cookies["auth_token"] = os.environ["auth_token"]
+    else:
+        print("auth_token未配置")
+        exit(1)
+    if args.all:
+        get_all_albums(args.album_id)
+    if args.latest:
+        get_latest(args.album_id)
