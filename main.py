@@ -88,7 +88,7 @@ def get_all_albums(album_id: str):
         'album_id': album_id,
         'lastRank': 0,
         'rankOrder': 'asc',
-        'rankField': 'rank',
+        'rankField': 'publish_sn',
     }
     while True:
         resp = requests.get('https://afdian.net/api/user/get-album-post', headers=headers, params=params,
@@ -107,7 +107,7 @@ def get_latest(album_id: str):
         'album_id': album_id,
         'lastRank': 0,
         'rankOrder': 'desc',
-        'rankField': 'rank',
+        'rankField': 'publish_sn',
     }
     resp = requests.get('https://afdian.net/api/user/get-album-post', headers=headers, params=params,
                         cookies=cookies).json()
