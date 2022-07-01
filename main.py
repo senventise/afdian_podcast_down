@@ -27,9 +27,17 @@ headers = {
 }
 
 
-def download_page(data, all=True):
+def download_page(data, n: int=-1):
     albums = data["list"]
     for album in albums:
+        # 下载n期
+        if not n == -1:
+            if n > 0:
+                n -= 1
+            elif n == 0:
+                break
+        else:
+            print("下载全部")
         title = album["title"]
         author = album["user"]["name"]
         description = album["content"]
@@ -75,8 +83,6 @@ def download_page(data, all=True):
             audio.tag.images.set(3, cover, "image/jpeg")
             audio.tag.save()
             print(f"已完成\n")
-            if not all:
-                break
         except Exception as e:
             print("下载歌曲失败")
             print(e)
@@ -102,7 +108,8 @@ def get_all_albums(album_id: str):
             break
 
 
-def get_latest(album_id: str):
+# 获取倒数第n期节目
+def get_latest_n(album_id: str, n=0):
     params = {
         'album_id': album_id,
         'lastRank': 0,
@@ -112,14 +119,16 @@ def get_latest(album_id: str):
     resp = requests.get('https://afdian.net/api/user/get-album-post', headers=headers, params=params,
                         cookies=cookies).json()
     data = resp["data"]
-    download_page(data, all=False)
+    #print(data["list"])
+    print("="*50)
+    download_page(data, n)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="爱发电播客下载")
-    parser.add_argument("album_id", metavar="id", type=str, help="URL里的id")
+    parser.add_argument("--id", required=True, type=str, help="URL里的id")
     parser.add_argument("--all", action="store_true", help="下载全部")
-    parser.add_argument("--latest", action="store_true", help="下载最新一期")
+    parser.add_argument("--latest", metavar="n", type=int, default=1, help="下载最新n期")
     args = parser.parse_args()
     if "auth_token" in os.environ:
         cookies["auth_token"] = os.environ["auth_token"]
@@ -127,6 +136,6 @@ if __name__ == '__main__':
         print("auth_token未配置")
         exit(1)
     if args.all:
-        get_all_albums(args.album_id)
+        get_all_albums(args.id)
     if args.latest:
-        get_latest(args.album_id)
+        get_latest_n(args.id, args.latest)
