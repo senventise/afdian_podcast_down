@@ -1,6 +1,7 @@
 # 爱发电播客下载
 **前排提醒：本工具仅能下载正在发电的节目**
 ## 使用
+注意：有可能需要`ffmpeg`
 ```shell
 $ git clone git@github.com:senventise/afdian_podcast_down.git
 $ cd afdian_podcast_down
@@ -15,6 +16,8 @@ $ auth_token="AUTH_TOKEN" python main.py --id ALBUM_ID --all
 ```
 ### 下载最新n期
 ```shell
+# 列出最新n期
+$ auth_token="AUTH_TOKEN" python main.py --id ALBUM_ID --latest n --list
+# 下载
 $ auth_token="AUTH_TOKEN" python main.py --id ALBUM_ID --latest n
 ```
-有可能需要`ffmpeg`
